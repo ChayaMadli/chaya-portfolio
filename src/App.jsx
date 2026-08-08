@@ -1,13 +1,15 @@
-import './App.css'
+import React from 'react';
+import { ChatContainer } from './components/Chat/ChatContainer';
+import './App.css';
 
 function App() {
   return (
-    <main className="container">
-      <h1>Chaya Madli</h1>
-      <p>Portfolio coming soon.</p>
-    </main>
-  )
+    <div className="app-shell">
+      <main className="main-content">
+        <ChatContainer />
+      </main>
+    </div>
+  );
 }
 
-export default App
-
+export default App;
