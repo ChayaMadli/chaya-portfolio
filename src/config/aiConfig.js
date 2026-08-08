@@ -6,7 +6,7 @@
 
 export const AI_CONFIG = {
   // Gemini model with fast streaming capabilities
-  model: 'gemini-2.5-flash',
+  model: 'gemini-1.5-flash',
   
   // Generation configuration
   temperature: 0.7,
