@@ -1,16 +1,38 @@
-# React + Vite
+# Chaya Madli — AI Portfolio Assistant
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+An interactive AI-powered portfolio assistant built with React and Vite.
 
-Currently, two official plugins are available:
+The application combines a streaming AI chat interface with a server-side portfolio tool that allows the AI to retrieve structured information about specific projects and render the result as a real UI component.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## FE-07 — Generative UI / Tool Calling
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This project implements a server-side tool called `getProjectDetails`.
 
-## Expanding the Oxlint configuration
+The tool allows the AI assistant to retrieve structured information about Chaya Madli's portfolio projects.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Instead of returning the tool result as raw JSON, the frontend renders the structured response as a dedicated **Project Result** component.
+
+---
+
+## Tool Contract
+
+### Tool name
+
+`getProjectDetails`
+
+### Purpose
+
+Retrieves structured information about one of Chaya Madli's portfolio projects.
+
+The AI can call this tool when the user asks for details about a specific project.
+
+### Input schema
+
+The tool uses a Zod schema.
+
+```js
+{
+  project: "colorDetector" | "soldierMonitoring" | "homeAutomation"
+}
