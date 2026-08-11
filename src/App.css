@@ -824,3 +824,105 @@
     text-align: left;
   }
 }
+/* =========================================================
+   FE-08 — Failure Recovery / Retry UI
+   ========================================================= */
+
+.error-recovery {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid var(--error-border);
+  border-radius: var(--radius-md);
+  background-color: var(--error-bg);
+  animation: errorRecoveryEnter 200ms ease-out;
+}
+
+@keyframes errorRecoveryEnter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.error-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  color: var(--error-text);
+}
+
+.error-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  background-color: var(--error-border);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.error-notice strong {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: 0.8125rem;
+}
+
+.error-notice p {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.retry-button {
+  margin-top: 0.7rem;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--error-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-card);
+  color: var(--error-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    transform 150ms ease,
+    opacity 150ms ease;
+}
+
+.retry-button:hover {
+  background-color: var(--error-bg);
+  transform: translateY(-1px);
+}
+
+.retry-button:active {
+  transform: translateY(0);
+}
+
+.retry-button:focus-visible {
+  outline: 2px solid var(--error-text);
+  outline-offset: 2px;
+}
+
+.error-bubble {
+  border-color: var(--error-border);
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .error-recovery {
+    padding: 0.65rem;
+  }
+
+  .retry-button {
+    width: 100%;
+    min-height: 40px;
+  }
+}

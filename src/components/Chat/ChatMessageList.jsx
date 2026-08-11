@@ -6,6 +6,7 @@ import { ToolState } from './ToolState';
 export function ChatMessageList({
   messages,
   onSelectPrompt,
+  onRetry,
   toolState,
 }) {
   const containerRef = useRef(null);
@@ -53,8 +54,7 @@ export function ChatMessageList({
     }
   };
 
-  // Show the normal empty state only when there
-  // are no messages AND no active tool state.
+  // Useful first-run empty state.
   if (messages.length === 0 && !toolState) {
     return (
       <div className="chat-messages-container empty">
@@ -74,6 +74,7 @@ export function ChatMessageList({
           <ChatMessage
             key={message.id}
             message={message}
+            onRetry={onRetry}
           />
         ))}
 
