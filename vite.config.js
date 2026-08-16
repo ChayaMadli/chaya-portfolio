@@ -32,6 +32,16 @@ export default defineConfig(({ mode }) => {
           });
         }
       }
-    ]
+    ],
+    test: {
+      environment: 'jsdom',
+      setupFiles: './src/setupTests.js',
+      css: true,
+      globals: true,
+      restoreMocks: true,
+      clearMocks: true,
+      include: ['src/**/*.test.{js,jsx,ts,tsx}'],
+      exclude: ['tests/**', 'node_modules/**'],
+    },
   };
 });
