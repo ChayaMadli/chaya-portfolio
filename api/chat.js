@@ -137,6 +137,18 @@ export default async function handler(req, res) {
           modelResponseContent =
             chunk.candidates[0].content;
 
+          // DEBUG_THOUGHT_SIGNATURE: Point A - Log when functionCall is first detected
+          console.log('[DEBUG_THOUGHT_SIGNATURE] Point A - Function call detected:', {
+            hasFunctionCall: !!part.functionCall,
+            hasThoughtSignature: !!part.thoughtSignature,
+            thoughtSignatureLength: part.thoughtSignature ? part.thoughtSignature.length : 0,
+            functionCallName: part.functionCall?.name || 'N/A',
+            functionCallId: part.functionCall?.id || 'N/A',
+            modelResponseContentHasThoughtSignature: !!modelResponseContent,
+            modelResponseContentPartsCount: modelResponseContent?.parts?.length || 0,
+            modelResponseContentFirstPartHasThoughtSig: modelResponseContent?.parts?.[0]?.thoughtSignature ? true : false,
+          });
+
           break;
         }
       }
@@ -211,7 +223,17 @@ export default async function handler(req, res) {
     // user-facing response.
     // ---------------------------------------------------------
 
+    // DEBUG_THOUGHT_SIGNATURE: Point B - Log before constructing follow-up request
     if (modelResponseContent && functionCall) {
+      console.log('[DEBUG_THOUGHT_SIGNATURE] Point B - Before follow-up construction:', {
+        modelResponseContentPartsCount: modelResponseContent?.parts?.length || 0,
+        firstPartHasThoughtSignature: !!modelResponseContent?.parts?.[0]?.thoughtSignature,
+        firstPartThoughtSigLength: modelResponseContent?.parts?.[0]?.thoughtSignature ? modelResponseContent.parts[0].thoughtSignature.length : 0,
+        firstPartHasFunctionCall: !!modelResponseContent?.parts?.[0]?.functionCall,
+        functionCallName: functionCall?.name || 'N/A',
+        functionCallId: functionCall?.id || 'N/A',
+      });
+
       const followUpContents = [
         ...formattedContents,
         modelResponseContent,
@@ -232,6 +254,16 @@ export default async function handler(req, res) {
           ],
         },
       ];
+
+      // DEBUG_THOUGHT_SIGNATURE: Point C - Log the complete follow-up contents before sending to Gemini
+      console.log('[DEBUG_THOUGHT_SIGNATURE] Point C - Follow-up contents structure:', {
+        contentsLength: followUpContents.length,
+        lastItemIsUser: followUpContents[followUpContents.length - 1]?.role === 'user',
+        secondToLastItemLabel: followUpContents[followUpContents.length - 2]?.role || 'modelResponseContent',
+        secondToLastItemHasThoughtSig: !!followUpContents[followUpContents.length - 2]?.parts?.[0]?.thoughtSignature,
+        secondToLastItemFirstPartHasFunctionCall: !!followUpContents[followUpContents.length - 2]?.parts?.[0]?.functionCall,
+        lastItemFunctionResponseName: followUpContents[followUpContents.length - 1]?.parts?.[0]?.functionResponse?.name || 'N/A',
+      });
 
       const finalStream =
         await ai.models.generateContentStream({
